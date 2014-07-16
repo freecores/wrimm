@@ -3,11 +3,11 @@
 --See WrimmManual.pdf for the Wishbone Datasheet and implementation details.
 --See wrimm subversion project for version history
 
-library Wrimm;
-  use Wrimm.WrimmPackage.all;
 library ieee;
   use ieee.NUMERIC_STD.all;
   use ieee.std_logic_1164.all;
+
+  use work.WrimmPackage.all;
 
 entity wrimm_top_tb is
 end wrimm_top_tb;
@@ -204,7 +204,8 @@ begin
     MasterQCyc    <= '0';
     MasterQAddr   <= x"0";
     MasterQDataToSlave <= x"00";
-    wait;
+    wait for clkPeriod * 2;
+    assert false report "Test Complete" severity warning;
   end process procWbMasterQ;
 
 end TB_ARCHITECTURE;

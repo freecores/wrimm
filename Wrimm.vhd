@@ -6,16 +6,10 @@
 library ieee;
   use ieee.std_logic_1164.all;
   use ieee.numeric_std.all;
-library wrimm;
-  use wrimm.WrimmPackage.all;
+
+  use work.WrimmPackage.all;
 
 entity Wrimm is
-  --generic (
-  --  MasterParams      : WbMasterDefType;
-  --  SlaveParams       : WbSlaveDefType;
-  --  StatusParams      : StatusFieldDefType;
-  --  SettingParams     : SettingFieldDefType;
-  --  TriggerParams     : TriggerFieldDefType);
   port (
     WbClk             : in  std_logic;
     WbRst             : out std_logic;
@@ -66,8 +60,8 @@ begin
     variable vGrant : WbMasterGrantType;
   begin
     if (rstZ='0') then
-      vGrant(vGrant'range) := (Others=>'0');
-      vGrant(vGrant'left) := '1';
+      vGrant								:= (Others=>'0');
+      vGrant(vGrant'left) 	:= '1';
     elsif rising_edge(WbClk) then
       loopGrant: for i in WbMasterType loop
         if vGrant(i)='1' and WbMasterIn(i).Cyc='0' then --else maintain grant
@@ -87,8 +81,8 @@ begin
           end if;
         end if;
       end loop loopGrant;
-      grant <= vGrant;
     end if; --Clk
+    grant <= vGrant;
   end process procArb;
 --=============================================================================
 -------------------------------------------------------------------------------
